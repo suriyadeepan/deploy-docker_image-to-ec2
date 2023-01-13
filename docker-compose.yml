@@ -1,0 +1,9 @@
+version: "3.9"
+# define various services
+services:
+  flask: 
+    build: ./
+    image: suriyadeepan/hello:latest
+    ports:
+      - 80:5000
+    restart: "no"
