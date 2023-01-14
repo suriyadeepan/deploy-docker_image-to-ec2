@@ -27,6 +27,9 @@ jobs:
           docker push ${{secrets.DOCKER_USER}}/$REPO
           
       - name: Docker pull & Run from hub
+        env:
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
         uses: appleboy/ssh-action@master
         with:
           host: ${{secrets.EC2_HOST}}
@@ -36,6 +39,6 @@ jobs:
           script: |
             docker login
             docker pull ${{secrets.DOCKER_USER}}/$REPO
-            docker stop $(docker ps -a -q)
-            docker rm $(docker ps -a -q)
-            docker run --detach --name hello_server -p 80:5000 ${{secrets.DOCKER_USER}}/$REPO
+            # docker stop $(docker ps -a -q)
+            # docker rm $(docker ps -a -q)
+            # docker run -d -p 80:5000 ${{secrets.DOCKER_USER}}/$REPO
