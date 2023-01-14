@@ -26,29 +26,16 @@ jobs:
           docker tag $REPO:latest ${{secrets.DOCKER_USER}}/$REPO:latest
           docker push ${{secrets.DOCKER_USER}}/$REPO
           
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
+      - name: Docker pull & Run from hub
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.EC2_HOST}}
+          username: ec2-user
+          key: $${{secrets.EC2_PRIVATE_KEY}}
+          envs: GITHUB_SHA
+          script: |
+            docker login
+            docker pull ${{secrets.DOCKER_USER}}/$REPO
+            docker stop $(docker ps -a -q)
+            docker rm $(docker ps -a -q)
+            docker run --detach --name hello_server -p 80:5000 ${{secrets.DOCKER_USER}}/$REPO
