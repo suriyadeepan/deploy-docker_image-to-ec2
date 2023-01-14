@@ -30,6 +30,7 @@ jobs:
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+          REPO: deploy-example
         uses: appleboy/ssh-action@master
         with:
           host: ${{secrets.EC2_HOST}}
@@ -37,8 +38,9 @@ jobs:
           key: ${{secrets.EC2_PRIVATE_KEY}}
           port: 22
           script: |
-            docker login -u="${{secrets.DOCKER_USER}}" -p="${{secrets.DOCKER_PASSWORD}}"
+            # docker login -u="${{secrets.DOCKER_USER}}" -p="${{secrets.DOCKER_PASSWORD}}"
             docker pull ${{secrets.DOCKER_USER}}/$REPO
+            
             # docker stop $(docker ps -a -q)
             # docker rm $(docker ps -a -q)
             docker run -d -p 80:5000 ${{secrets.DOCKER_USER}}/$REPO
