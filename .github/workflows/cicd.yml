@@ -39,9 +39,7 @@ jobs:
           port: 22
           script: |
             # docker login -u="${{secrets.DOCKER_USER}}" -p="${{secrets.DOCKER_PASSWORD}}"
-            docker pull suriyadeepan/deploy-example # ${{secrets.DOCKER_USER}}/$REPO
-            
+            docker pull $DOCKER_USER/$REPO
             # docker stop $(docker ps -a -q)
             # docker rm $(docker ps -a -q)
-            # docker run -d -p 80:5000 ${{secrets.DOCKER_USER}}/$REPO
-            docker run -d -p 80:5000 suriyadeepan/deploy-example
+            docker run -d -p 80:5000 $DOCKER_USER/$REPO
